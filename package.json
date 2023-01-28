@@ -1,0 +1,27 @@
+{
+  "name": "recommendations-fe",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.4",
+    "apollo-datasource-rest": "^3.7.0",
+    "apollo-server-micro": "^3.11.1",
+    "graphql": "^16.6.0",
+    "micro": "^10.0.1",
+    "next": "13.1.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.18",
+    "@types/react": "18.0.26",
+    "eslint": "7.32.0",
+    "eslint-config-next": "13.1.2",
+    "typescript": "4.9.4"
+  }
+}
