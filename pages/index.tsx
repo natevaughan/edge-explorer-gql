@@ -25,11 +25,10 @@ const Home = ({ destinations }) => {
 
 export default Home;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 
-  try {
-    const {data} = await apolloClient.query({
-      query: gql`
+  const {data} = await apolloClient.query({
+    query: gql`
     query HomeView {
       popularDestinations {
         id
@@ -38,20 +37,11 @@ export async function getStaticProps() {
       }
     }
   `
-    });
+  });
 
-    return {
-      props: {
-        destinations: data.popularDestinations
-      },
-      revalidate: 60
-    }
-  } catch (e) {
-    return {
-      props: {
-        destinations: []
-      },
-      revalidate: 60
+  return {
+    props: {
+      destinations: data.popularDestinations
     }
   }
 }
