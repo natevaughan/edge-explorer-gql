@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import Link from "next/link";
 import apolloClient from "../../util/apolloClient";
 
-const ShowLinks = ({ destination }) => {
+const DestinationPage = ({ destination }) => {
 
   if (!destination) {
     return <div className={styles.container}>loading...</div>
@@ -39,14 +39,7 @@ const ShowLinks = ({ destination }) => {
   )
 }
 
-export default ShowLinks
-
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: "blocking",
-  }
-}
+export default DestinationPage
 
 export async function getServerSideProps(context) {
   const { data } = await apolloClient.query({
