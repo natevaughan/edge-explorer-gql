@@ -4,6 +4,7 @@ import { gql } from '@apollo/client';
 import Link from "next/link";
 import apolloClient from "../../util/apolloClient";
 import { useRouter } from "next/router";
+import Card from "../../components/Card";
 
 const DestinationPage = () => {
 
@@ -58,12 +59,7 @@ const DestinationPage = () => {
         {edges.map(d => {
           const node = d.nodes.filter(it => it.id !== destination.id)[0]
           const relativeStrength = Math.floor(d.strength * 100.0 / maxStrength)
-          return (
-            <Link key={node.id} href={`/destination/${node.id}`} className={styles.card}>
-              <h3>{ node.name }</h3>
-              <div style={{height: 20, width: `${relativeStrength}%`, backgroundColor: "#aabbcc"}}>{relativeStrength}%</div>
-            </Link>
-          );
+          return (<Card destination={node} relativeStrength={relativeStrength} />);
         })}
       </div>
       <Link href={`/`}>
@@ -72,5 +68,6 @@ const DestinationPage = () => {
     </div>
   )
 }
+
 
 export default DestinationPage
