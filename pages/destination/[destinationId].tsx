@@ -5,12 +5,16 @@ import Link from "next/link";
 import apolloClient from "../../util/apolloClient";
 
 const ShowLinks = ({ destination }) => {
+
+  if (!destination) {
+    return <div className={styles.container}>loading...</div>
+  }
+
   const edges = destination.edges
     .filter(it => it.nodes !== null)
     .sort((a, b) => { return b.strength - a.strength })
 
   const maxStrength = edges[0].strength
-
 
   return (
     <div className={styles.container}>
@@ -45,8 +49,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  const { data } = await apolloClient.query({
-    query: gql`
+  try {
+    const { data } = await apolloClient.query({
+      query: gql`
     query GetDestination($destinationId: ID!) {
       destination(id: $destinationId) {
         id
@@ -64,14 +69,23 @@ export async function getStaticProps(context) {
       }
     }
   `,
-    variables: {
-      destinationId: context.params.destinationId,
-    },
-  });
+      variables: {
+        destinationId: context.params.destinationId,
+      },
+    });
 
-  return {
-    props: {
-      destination: data.destination
+    return {
+      props: {
+        destination: data?.destination || null
+      }
+    }
+  } catch (e) {
+
+    return {
+      props: {
+        destination: null
+      }
     }
   }
+
 }

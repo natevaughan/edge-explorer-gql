@@ -27,8 +27,9 @@ export default Home;
 
 export async function getStaticProps() {
 
-  const { data } = await apolloClient.query({
-    query: gql`
+  try {
+    const {data} = await apolloClient.query({
+      query: gql`
     query HomeView {
       popularDestinations {
         id
@@ -37,11 +38,18 @@ export async function getStaticProps() {
       }
     }
   `
-  });
+    });
 
-  return {
-    props: {
-      destinations: data.popularDestinations
+    return {
+      props: {
+        destinations: data.popularDestinations
+      }
+    }
+  } catch (e) {
+    return {
+      props: {
+        destinations: []
+      }
     }
   }
 }
