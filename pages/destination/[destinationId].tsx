@@ -76,15 +76,17 @@ export async function getStaticProps(context) {
 
     return {
       props: {
-        destination: data?.destination || null
-      }
+        destination: data.destination
+      },
+      revalidate: 60
     }
   } catch (e) {
 
     return {
       props: {
         destination: null
-      }
+      },
+      revalidate: 60
     }
   }
 

@@ -43,13 +43,15 @@ export async function getStaticProps() {
     return {
       props: {
         destinations: data.popularDestinations
-      }
+      },
+      revalidate: 60
     }
   } catch (e) {
     return {
       props: {
         destinations: []
-      }
+      },
+      revalidate: 60
     }
   }
 }
