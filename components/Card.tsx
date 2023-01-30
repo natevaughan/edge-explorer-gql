@@ -9,7 +9,7 @@ export interface CardProps {
 
 const Card: FC = ({ destination, relativeStrength }: CardProps) => {
   return (
-    <Link key={destination.id} href={`/destination/${destination.id}`} className={styles.card}>
+    <Link href={`/destination/${destination.id}`} className={styles.card}>
       <h2>{ destination.name }</h2>
       <div className={styles.country}>{ destination.country }</div>
       {relativeStrength && <div style={{height: 20, width: `${relativeStrength}%`, backgroundColor: "#aabbcc"}}>{relativeStrength}%</div>}

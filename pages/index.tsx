@@ -29,7 +29,7 @@ const Home = () => {
       <h1>Destination explorer</h1>
       <h3>Try one of these</h3>
       <div className={styles.grid}>
-        {destinations.map(destination => <Card destination={destination} />)}
+        {destinations.map(destination => <Card key={destination.id} destination={destination} />)}
       </div>
     </div>
   )

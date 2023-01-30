@@ -59,7 +59,7 @@ const DestinationPage = () => {
         {edges.map(d => {
           const node = d.nodes.filter(it => it.id !== destination.id)[0]
           const relativeStrength = Math.floor(d.strength * 100.0 / maxStrength)
-          return (<Card destination={node} relativeStrength={relativeStrength} />);
+          return (<Card key={node.id} destination={node} relativeStrength={relativeStrength} />);
         })}
       </div>
       <Link href={`/`}>
