@@ -1,10 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from '../../styles/Home.module.css'
 import { gql } from '@apollo/client';
 import Link from "next/link";
 import apolloClient from "../../util/apolloClient";
+import { useRouter } from "next/router";
 
-const DestinationPage = ({ destination }) => {
+const DestinationPage = () => {
+
+  const router = useRouter();
+  const { destinationId } = router.query;
+
+  const [destination, setDestination] = useState<any | null>(null)
+
+  useEffect(() => {
+    apolloClient.query({
+      query: gql`
+    query GetDestination($destinationId: ID!) {
+      destination(id: $destinationId) {
+        id
+        name
+        country
+        edges {
+          id
+          strength
+          nodes {
+            id
+            name
+            country
+          }
+        }
+      }
+    }
+    `,
+      variables: {
+        destinationId: destinationId,
+      },
+    }).then(({ data }) => {
+      setDestination(data.destination)
+    })
+  }, [destinationId])
 
   if (!destination) {
     return <div className={styles.container}>loading...</div>
@@ -40,35 +74,3 @@ const DestinationPage = ({ destination }) => {
 }
 
 export default DestinationPage
-
-export async function getServerSideProps(context) {
-  const { data } = await apolloClient.query({
-    query: gql`
-    query GetDestination($destinationId: ID!) {
-      destination(id: $destinationId) {
-        id
-        name
-        country
-        edges {
-          id
-          strength
-          nodes {
-            id
-            name
-            country
-          }
-        }
-      }
-    }
-    `,
-    variables: {
-      destinationId: context.params.destinationId,
-    },
-  });
-
-  return {
-    props: {
-      destination: data.destination
-    }
-  }
-}

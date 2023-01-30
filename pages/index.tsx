@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import { gql } from "@apollo/client";
 import Link from "next/link";
 import apolloClient from "../util/apolloClient";
 
-const Home = ({ destinations }) => {
+const Home = () => {
+
+  const [destinations, setDestinations] = useState([])
+
+  useEffect(() => {
+    apolloClient.query({
+      query: gql`
+      query HomeView {
+        popularDestinations {
+          id
+          name
+          country
+        }
+      }
+    `
+    }).then(({ data }) => {
+      setDestinations(data.popularDestinations)
+    });
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -24,25 +42,3 @@ const Home = ({ destinations }) => {
 }
 
 export default Home;
-
-export async function getServerSideProps() {
-
-  const {data} = await apolloClient.query({
-    query: gql`
-    query HomeView {
-      popularDestinations {
-        id
-        name
-        country
-      }
-    }
-  `
-  });
-
-  return {
-    props: {
-      destinations: data.popularDestinations
-    }
-  }
-}
-
