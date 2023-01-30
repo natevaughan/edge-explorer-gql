@@ -4,10 +4,10 @@ import styles from "../styles/Home.module.css";
 
 export interface CardProps {
   destination: any,
-  relativeStrength: number | undefined
+  relativeStrength?: number,
 }
 
-const Card: FC = ({ destination, relativeStrength }: CardProps) => {
+const Card: FC<CardProps> = ({ destination, relativeStrength }: CardProps) => {
   return (
     <Link href={`/destination/${destination.id}`} className={styles.card}>
       <h2>{ destination.name }</h2>
